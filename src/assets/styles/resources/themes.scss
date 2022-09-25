@@ -1,0 +1,30 @@
+@use './theme-default.scss' as *;
+@use './theme-elegant.scss' as *;
+@use './theme-freshness.scss' as *;
+@use './theme-gitee.scss' as *;
+@use './theme-pure-white.scss' as *;
+@use './theme-vue-cli.scss' as *;
+
+$themes: (
+  default: $theme-default,
+  vue-cli: $theme-vue-cli,
+  gitee: $theme-gitee,
+  freshness: $theme-freshness,
+  elegant: $theme-elegant,
+  pure-white: $theme-pure-white
+);
+@mixin themeify($name: '', $key: '') {
+  @each $theme-name, $map in $themes {
+    $theme-map: $map !global;
+    [data-theme='#{$theme-name}'] & {
+      @if $name != '' and $key != '' {
+        #{$name}: map-get($theme-map, $key);
+      } @else {
+        @content;
+      }
+    }
+  }
+}
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
